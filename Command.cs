@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using CommandSystem;
-using CustomPlayerEffects;
 using Exiled.API.Features;
 using PlayerRoles;
 
@@ -20,32 +19,32 @@ namespace SCPSwap
         {
             if (!(sender is CommandSender commandSender) || !Player.TryGet(commandSender.SenderId, out Player player))
             {
-                response = "Эту команду может использовать только игрок!";
+                response = SCPSwapPlugin.Singleton.T.OnlyPlayer;
                 return false;
             }
 
             var plugin = SCPSwapPlugin.Singleton;
             if (plugin == null || !plugin.SwapEnabled)
             {
-                response = "Время для смены SCP-класса истекло!";
+                response = plugin.T.TimeExpired;
                 return false;
             }
 
             if (!player.Role.Type.IsSCP(plugin.Config.AllowedScps))
             {
-                response = "Ты не играешь за SCP!";
+                response = plugin.T.NotSCP;
                 return false;
             }
 
             if (plugin.SwappedPlayers.Contains(player.Id))
             {
-                response = "Ты уже менял SCP-класс в этом раунде!";
+                response = plugin.T.AlreadySwapped;
                 return false;
             }
 
             if (arguments.Count == 0)
             {
-                response = "Использование: scpswap [номер SCP]\nПример: scpswap 049";
+                response = plugin.T.Usage;
                 return false;
             }
 
@@ -55,13 +54,13 @@ namespace SCPSwap
 
             if (targetScp == null)
             {
-                response = "Некорректный номер SCP. Доступные: " + string.Join(", ", plugin.Config.AllowedScps) + ".";
+                response = plugin.T.InvalidScp.Replace("{allowed}", string.Join(", ", plugin.Config.AllowedScps));
                 return false;
             }
 
             if (player.Role.Type == targetScp)
             {
-                response = "Ты уже играешь за этого SCP!";
+                response = plugin.T.AlreadyThisScp;
                 return false;
             }
 
@@ -70,14 +69,14 @@ namespace SCPSwap
 
             if (alreadyExists)
             {
-                response = "Этот SCP уже занят другим игроком!";
+                response = plugin.T.Occupied;
                 return false;
             }
 
             // Спавним на дефолтной точке нового SCP
             player.Role.Set(targetScp.Value, RoleSpawnFlags.UseSpawnpoint);
             plugin.SwappedPlayers.Add(player.Id);
-            response = $"Ты сменил SCP-класс на {targetScp.Value}!";
+            response = plugin.T.Success.Replace("{scp}", targetScp.Value.ToString());
             return true;
         }
 
