@@ -20,6 +20,11 @@ namespace SCPSwap
 
         private CoroutineHandle timerCoroutine;
 
+        // Получение перевода для текущего языка
+        public SCPSwapTranslation T => Config.Translation.ContainsKey(Config.Language)
+            ? Config.Translation[Config.Language]
+            : Config.Translation["ru"];
+
         public override void OnEnabled()
         {
             Singleton = this;
@@ -43,7 +48,7 @@ namespace SCPSwap
             timerCoroutine = Timing.RunCoroutine(DisableSwapAfterTime());
 
             // Броадкаст только SCP
-            string message = Config.StartBroadcast.Replace("{time}", Config.SwapTimeSeconds.ToString());
+            string message = T.StartBroadcast.Replace("{time}", Config.SwapTimeSeconds.ToString());
             foreach (var ply in Player.List)
             {
                 if (ply.Role.Team == PlayerRoles.Team.SCPs)
