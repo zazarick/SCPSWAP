@@ -1,0 +1,168 @@
+# SCPSwap
+
+**SCPSwap** — плагин для SCP: Secret Laboratory, который позволяет игрокам, играющим за SCP, один раз за раунд сменить свой SCP-класс на другой свободный.  
+Плагин поддерживает мультиязычность: русский, английский, китайский — язык выбирается в конфиге.
+
+---
+
+**SCPSwap** is a plugin for SCP: Secret Laboratory that allows SCP players to change their SCP class once per round to any available SCP.  
+The plugin supports multiple languages (Russian, English, Chinese — set in the config).
+
+---
+
+**SCPSwap** — 是 SCP: Secret Laboratory 的插件，允许SCP玩家每回合将自己的SCP职业更换为任意空闲SCP一次。  
+插件支持多语言（俄语、英语、中文），可在配置文件中设置。
+
+---
+
+## Русский (RU)
+
+### Возможности
+
+- SCP-игрок может один раз за раунд сменить свой SCP-класс на другой, если тот свободен.
+- Список доступных для выбора SCP настраивается в конфиге.
+- Ограничение по времени: смена SCP возможна только в первые N секунд раунда.
+- Мультиязычность: все сообщения автоматически переводятся при смене языка в конфиге (`ru`, `en`, `zh`).
+
+### Установка
+
+1. Поместите `.dll` файл плагина в папку `~\SCPSL\EXILED\Plugins\`.
+2. После первого запуска сгенерируется файл конфига `SCPSwap.yml` или `SCPSwap.json` в папке `~\SCPSL\EXILED\Configs\`.
+3. Откройте конфиг и настройте параметры под себя.
+
+### Использование
+
+- После старта раунда всем SCP выводится инструкция и время для команды.
+- Пример команды:  
+  ```
+  .scpswap 106
+  ```
+- Каждый игрок может сменить SCP только один раз за раунд и только на свободного SCP.
+
+---
+
+## English (EN)
+
+### Features
+
+- Allows SCP players to change their SCP class once per round to another available SCP.
+- The list of available SCPs is configurable.
+- Time-limited: class swap can only be used during the first N seconds of the round.
+- Multilanguage: all messages are automatically translated when you change the language in the config (`ru`, `en`, `zh`).
+
+### Installation
+
+1. Place the `.dll` plugin file into `~\SCPSL\EXILED\Plugins\`.
+2. On first launch, the config file `SCPSwap.yml` or `SCPSwap.json` will be generated in `~\SCPSL\EXILED\Configs\`.
+3. Open the config and set parameters as desired.
+
+### Usage
+
+- After the round starts, all SCPs receive instructions and a time window for the command.
+- Example command:  
+  ```
+  .scpswap 106
+  ```
+- Each player can swap SCP only once per round and only to a free SCP.
+
+---
+
+## 中文 (ZH)
+
+### 功能
+
+- 每回合允许SCP玩家将自己的SCP职业更换为任意空闲SCP一次。
+- 可在配置文件中指定可选SCP编号。
+- 有时间限制：仅能在回合开始后的前N秒内更换。
+- 多语言支持：所有消息会根据配置自动翻译（`ru`，`en`，`zh`）。
+
+### 安装
+
+1. 将`.dll`插件文件放入 `~\SCPSL\EXILED\Plugins\` 文件夹。
+2. 首次启动后，会在 `~\SCPSL\EXILED\Configs\` 文件夹生成 `SCPSwap.yml` 或 `SCPSwap.json` 配置文件。
+3. 打开配置文件，根据需要设置参数。
+
+### 用法
+
+- 回合开始后所有SCP都会收到指令和可用时间。
+- 示例命令：  
+  ```
+  .scpswap 106
+  ```
+- 每个玩家每回合只能更换一次SCP，并且只能更换为空闲SCP。
+
+---
+
+## Пример конфига / Example config / 配置示例
+
+```yaml
+IsEnabled: true
+Debug: false
+SwapTimeSeconds: 30
+AllowedScps:
+  - "049"
+  - "079"
+  - "096"
+  - "106"
+  - "173"
+  - "939"
+Language: "ru" # ("ru" — русский, "en" — English, "zh" — 中文)
+Translation:
+  ru:
+    StartBroadcast: "Внимание! В течение {time} секунд вы можете один раз сменить свой SCP-класс командой scpswap [номер SCP]"
+    NotSCP: "Ты не играешь за SCP!"
+    AlreadySwapped: "Ты уже менял SCP-класс в этом раунде!"
+    Usage: "Использование: scpswap [номер SCP]\nПример: scpswap 049"
+    InvalidScp: "Некорректный номер SCP. Доступные: {allowed}."
+    AlreadyThisScp: "Ты уже играешь за этого SCP!"
+    Occupied: "Этот SCP уже занят другим игроком!"
+    Success: "Ты сменил SCP-класс на {scp}!"
+    TimeExpired: "Время для смены SCP-класса истекло!"
+    OnlyPlayer: "Эту команду может использовать только игрок!"
+  en:
+    StartBroadcast: "Attention! For {time} seconds you can change your SCP class once with the command scpswap [SCP number]"
+    NotSCP: "You are not playing as SCP!"
+    AlreadySwapped: "You have already changed your SCP class this round!"
+    Usage: "Usage: scpswap [SCP number]\nExample: scpswap 049"
+    InvalidScp: "Incorrect SCP number. Available: {allowed}."
+    AlreadyThisScp: "You are already playing as this SCP!"
+    Occupied: "This SCP is already taken by another player!"
+    Success: "You changed your SCP class to {scp}!"
+    TimeExpired: "The time to change SCP class has expired!"
+    OnlyPlayer: "Only players can use this command!"
+  zh:
+    StartBroadcast: "注意！在 {time} 秒内，你可以使用 scpswap [SCP编号] 命令更换一次SCP职业"
+    NotSCP: "你不是SCP！"
+    AlreadySwapped: "你本回合已更换过SCP职业！"
+    Usage: "用法：scpswap [SCP编号]\n例子：scpswap 049"
+    InvalidScp: "SCP编号错误。可用：{allowed}。"
+    AlreadyThisScp: "你已经是这个SCP了！"
+    Occupied: "该SCP已被其他玩家占用！"
+    Success: "你已将SCP职业更换为 {scp}！"
+    TimeExpired: "更换SCP职业的时间已过！"
+    OnlyPlayer: "只有玩家可以使用该命令！"
+```
+
+---
+
+## Совместимость / Compatibility / 兼容性
+
+- Требует Exiled 8.x и выше.  
+- Requires Exiled 8.x or higher.  
+- 需要 Exiled 8.x 及以上。
+
+- Работает на всех современных версиях SCP:SL.  
+- Works on all modern versions of SCP:SL.  
+- 兼容所有现代版本的SCP:SL。
+
+---
+
+## Лицензия / License / 许可
+
+Свободное использование с указанием автора.  
+Free to use with author attribution.  
+可自由使用，但请注明作者。
+
+Автор / Author: [Zazar](https://github.com/zazarick)
+
+---
